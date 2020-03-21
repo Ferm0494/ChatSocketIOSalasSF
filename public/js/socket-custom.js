@@ -28,6 +28,8 @@ socket.on('connect', function() {
 
     socket.emit('enviarChat', usuario, (resp) => {
         console.log(resp);
+
+        renderizar(resp)
     })
 
 });
@@ -49,16 +51,17 @@ socket.on('disconnect', function() {
 // });
 
 // Escuchar información
-socket.on('enviarMensaje', function(mensaje) {
+socket.on('enviarMensaje', function(data) {
 
-    console.log('Servidor:', mensaje);
-
+    renderizarMensaje(data.mensaje, data.nombre)
 });
 
-
+//Agrega o borra informacion de usuario en sala
 socket.on('AgregaroBorrar', function(mensaje) {
 
-    console.log('Servidor:', mensaje.msj);
+
+    console.log('Servidor AgregaroBorrar:', mensaje.msj);
+    renderizar(mensaje.lista)
 
 });
 

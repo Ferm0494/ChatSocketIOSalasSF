@@ -22,7 +22,7 @@ io.on('connection', (client) => {
             client.broadcast.to(usuario.sala).emit('AgregaroBorrar', {
                 msj: `${usuario.nombre} 
             ha ingresado al chat`,
-                lista: usuarios.getPersonaPorSala()
+                lista: usuarios.getPersonaPorSala(usuario.sala)
             })
 
             callback(usuarios.getPersonaPorSala(usuario.sala))
@@ -32,10 +32,11 @@ io.on('connection', (client) => {
     })
 
     // Envia mensaje a todos los usuarios.
-    client.on('enviarMensaje', (data) => {
+    client.on('enviarMensaje', (data, callback) => {
+        console.log(data);
         let persona = usuarios.getPersona(client.id);
         client.broadcast.to(persona.sala).emit('enviarMensaje', enviarMensaje(persona.nombre, data.mensaje))
-
+        callback(enviarMensaje(persona.nombre, data.mensaje))
 
     })
 
